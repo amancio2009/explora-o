@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Missão Órbita – Aventura de Exploração Espacial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- FUNDO ANIMADO (só CSS, sem imagens externas) -->
+  <div class="espaco" aria-hidden="true">
+    <div class="brilho"></div>
+    <div class="planeta p1"></div>
+    <div class="planeta p2"></div>
+    <div class="planeta p3"></div>
+    <div class="cometa c1"></div>
+    <div class="cometa c2"></div>
+    <div class="foguete">🚀</div>
+  </div>
+
+  <main class="painel">
+
+    <!-- TELA DE INÍCIO -->
+    <section id="tela-inicio" class="tela ativa">
+      <h1 class="titulo">Missão Órbita</h1>
+      <p class="sub">Comande a nave Aurora da Terra até Marte. Cada decisão muda o seu caminho, e uma delas pode acabar com a missão.</p>
+      <label for="nickname">Seu nickname</label>
+      <input id="nickname" type="text" maxlength="16" placeholder="Ex.: AstroLu" autocomplete="off">
+      <p id="erro-nick" class="erro" role="alert"></p>
+      <button id="btn-play" class="btn principal">Play</button>
+    </section>
+
+    <!-- TELA DO JOGO -->
+    <section id="tela-jogo" class="tela">
+      <div class="topo">
+        <span id="info-jogador"></span>
+        <span id="info-fase"></span>
+      </div>
+      <div id="estrelas" class="estrelas" aria-label="Estrelas coletadas"></div>
+      <div class="barra"><div id="barra-progresso"></div></div>
+      <h2 id="historia"></h2>
+      <div id="opcoes" class="opcoes"></div>
+
+      <div id="feedback" class="feedback perdeu" aria-live="polite" hidden>
+        <p id="feedback-texto"></p>
+        <button id="btn-voltar" class="btn principal">Voltar ao início</button>
+      </div>
+    </section>
+
+    <!-- TELA DE VITÓRIA -->
+    <section id="tela-vitoria" class="tela">
+      <h1 class="titulo">Vitória!</h1>
+      <div id="estrelas-vitoria" class="estrelas grande" aria-label="Todas as estrelas coletadas"></div>
+      <p id="texto-vitoria" class="sub"></p>
+      <button id="btn-creditos" class="btn principal">Créditos</button>
+      <button id="btn-jogar-novamente" class="btn secundario">Jogar de novo</button>
+    </section>
+
+    <!-- TELA DE CRÉDITOS -->
+    <section id="tela-creditos" class="tela">
+      <h1 class="titulo">Créditos</h1>
+      <dl class="creditos">
+        <dt>Aplicativo</dt>
+       <dd>GitHub</dd>
+        <dt>Professor</dt>
+        <dd>Fabio Cesar Bimbati</dd>
+        <dt>Criadores</dt>
+        <dd>Jhemilyn Alexandra de Oliveira Motta</dd>
+        <dd>Leonardo Amancio da Silva</dd>
+      </dl>
+      <button id="btn-voltar-creditos" class="btn principal">Voltar ao início</button>
+    </section>
+
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

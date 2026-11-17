@@ -1,0 +1,286 @@
+:root {
+  --fundo: #0b0720;
+  --roxo-escuro: #2a1260;
+  --roxo: #7c3aed;
+  --roxo-claro: #b79bff;
+  --azul: #2f6bff;
+  --azul-claro: #7fb4ff;
+  --texto: #ece8ff;
+  --painel: rgba(24, 14, 62, 0.82);
+  --certo: #5eead4;
+  --errado: #ff7a9c;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body {
+  font-family: "Sora", system-ui, sans-serif;
+  color: var(--texto);
+  background:
+    radial-gradient(1.5px 1.5px at 12% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 78% 12%, #cfe0ff, transparent),
+    radial-gradient(1.5px 1.5px at 45% 70%, #e6d9ff, transparent),
+    radial-gradient(1px 1px at 88% 82%, #fff, transparent),
+    radial-gradient(1px 1px at 25% 90%, #cfe0ff, transparent),
+    radial-gradient(ellipse at 15% 0%, var(--roxo-escuro) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 100%, #0f2a73 0%, transparent 55%),
+    var(--fundo);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.painel {
+  position: relative;
+  z-index: 1;
+  width: min(560px, 100%);
+  background: var(--painel);
+  border: 1px solid rgba(183, 155, 255, 0.35);
+  border-radius: 20px;
+  padding: 2rem 1.75rem;
+  box-shadow: 0 0 60px rgba(124, 58, 237, 0.25), 0 0 120px rgba(47, 107, 255, 0.12);
+  backdrop-filter: blur(6px);
+}
+
+.tela { display: none; }
+.tela.ativa { display: block; animation: entrar 0.5s ease both; }
+
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.titulo {
+  font-family: "Unbounded", sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  line-height: 1.1;
+  margin: 0 0 0.75rem;
+  background: linear-gradient(90deg, var(--roxo-claro), var(--azul-claro));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sub { color: #cfc6ff; line-height: 1.6; margin: 0 0 1.5rem; }
+
+label { display: block; font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--roxo-claro); }
+
+input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font: inherit;
+  color: var(--texto);
+  background: rgba(11, 7, 32, 0.8);
+  border: 1px solid rgba(183, 155, 255, 0.4);
+  border-radius: 12px;
+}
+
+input:focus-visible, .btn:focus-visible, .opcao:focus-visible {
+  outline: 3px solid var(--azul-claro);
+  outline-offset: 2px;
+}
+
+.erro { min-height: 1.2rem; margin: 0.4rem 0 1rem; font-size: 0.85rem; color: var(--errado); }
+
+.btn {
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  border: 0;
+  border-radius: 12px;
+  padding: 0.9rem 1.5rem;
+  color: #fff;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn.principal {
+  width: 100%;
+  background: linear-gradient(90deg, var(--roxo), var(--azul));
+  box-shadow: 0 6px 24px rgba(79, 70, 229, 0.45);
+}
+
+.btn:hover { transform: translateY(-2px); }
+
+/* Jogo */
+.topo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--azul-claro);
+  margin-bottom: 0.6rem;
+}
+
+.barra {
+  height: 8px;
+  background: rgba(183, 155, 255, 0.18);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+#barra-progresso {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--roxo), var(--azul-claro));
+  transition: width 0.5s ease;
+}
+
+h2 { font-size: 1.2rem; line-height: 1.5; margin: 0 0 1.25rem; font-weight: 600; }
+
+.opcoes { display: grid; gap: 0.75rem; }
+
+.opcao {
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: var(--texto);
+  padding: 0.95rem 1.1rem;
+  background: rgba(47, 107, 255, 0.1);
+  border: 1px solid rgba(127, 180, 255, 0.4);
+  border-radius: 12px;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.opcao:hover:not(:disabled) {
+  background: rgba(124, 58, 237, 0.3);
+  border-color: var(--roxo-claro);
+  transform: translateX(4px);
+}
+
+.opcao:disabled { cursor: default; opacity: 0.55; }
+.opcao.certa  { opacity: 1; background: rgba(94, 234, 212, 0.16); border-color: var(--certo); }
+.opcao.errada { opacity: 1; background: rgba(255, 122, 156, 0.16); border-color: var(--errado); }
+
+.feedback { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(183, 155, 255, 0.3); }
+.feedback[hidden] { display: none; }
+.feedback p { line-height: 1.6; margin: 0 0 1rem; }
+.feedback.perdeu #feedback-texto { color: var(--errado); }
+.feedback.ganhou #feedback-texto { color: var(--certo); }
+
+@media (max-width: 480px) {
+  .painel { padding: 1.5rem 1.1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* ===== Versão história: botões extras e créditos ===== */
+.btn.secundario {
+  width: 100%;
+  margin-top: 0.75rem;
+  background: transparent;
+  border: 1px solid var(--roxo-claro);
+}
+.btn + .btn { margin-top: 0.75rem; }
+
+#historia { font-weight: 400; font-size: 1.1rem; }
+
+.creditos { margin: 0 0 1.5rem; line-height: 1.6; }
+.creditos dt { color: var(--roxo-claro); font-size: 0.85rem; margin-top: 1.1rem; }
+.creditos dd { margin: 0.15rem 0 0; font-size: 1.05rem; }
+.creditos a { color: var(--azul-claro); word-break: break-all; }
+
+/* ===== Fundo animado: planetas, cometas e foguete ===== */
+.espaco { position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
+
+.brilho {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(1.5px 1.5px at 8% 55%, #fff, transparent),
+    radial-gradient(1px 1px at 33% 15%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 62% 40%, #cfe0ff, transparent),
+    radial-gradient(1px 1px at 92% 58%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 70% 92%, #e6d9ff, transparent),
+    radial-gradient(1px 1px at 52% 8%, #fff, transparent);
+  animation: brilhar 4s ease-in-out infinite alternate;
+}
+@keyframes brilhar { from { opacity: 0.3; } to { opacity: 1; } }
+
+.planeta { position: absolute; border-radius: 50%; }
+
+/* Planeta roxo com anel */
+.p1 {
+  width: 190px; height: 190px; top: 8%; left: -50px;
+  background: radial-gradient(circle at 30% 30%, #c4a6ff, #7c3aed 50%, #2a1260 100%);
+  box-shadow: 0 0 60px rgba(124, 58, 237, 0.5);
+  animation: flutuar 14s ease-in-out infinite alternate;
+}
+.p1::after {
+  content: ""; position: absolute; left: -35%; top: 38%;
+  width: 170%; height: 24%;
+  border: 6px solid rgba(183, 155, 255, 0.55);
+  border-radius: 50%;
+  transform: rotate(-18deg);
+}
+
+/* Planeta azul com faixas */
+.p2 {
+  width: 130px; height: 130px; bottom: 7%; right: 4%;
+  background:
+    repeating-linear-gradient(170deg, transparent 0 14px, rgba(255,255,255,0.12) 14px 22px),
+    radial-gradient(circle at 35% 30%, #9cc7ff, #2f6bff 55%, #0f2a73 100%);
+  box-shadow: 0 0 50px rgba(47, 107, 255, 0.5);
+  animation: flutuar 11s ease-in-out infinite alternate-reverse;
+}
+
+/* Lua pequena */
+.p3 {
+  width: 54px; height: 54px; top: 14%; right: 12%;
+  background: radial-gradient(circle at 35% 30%, #e8eaff, #8d93c9 60%, #4a4f86 100%);
+  box-shadow: inset -6px -6px 12px rgba(0,0,0,0.35);
+  animation: flutuar 9s ease-in-out infinite alternate;
+}
+
+@keyframes flutuar {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(22px, -28px); }
+}
+
+/* Cometas */
+.cometa {
+  position: absolute; width: 140px; height: 2px;
+  background: linear-gradient(90deg, transparent, #fff);
+  transform: rotate(35deg); opacity: 0;
+  animation: cruzar 9s linear infinite;
+}
+.c1 { top: -5%; left: 20%; }
+.c2 { top: -5%; left: 60%; animation-delay: 4.5s; animation-duration: 11s; }
+@keyframes cruzar {
+  0%   { opacity: 0; transform: translate(0, 0) rotate(35deg); }
+  4%   { opacity: 1; }
+  14%  { opacity: 0; transform: translate(380px, 270px) rotate(35deg); }
+  100% { opacity: 0; transform: translate(380px, 270px) rotate(35deg); }
+}
+
+/* Foguete atravessando a tela */
+.foguete {
+  position: absolute; bottom: -40px; left: -40px; font-size: 1.8rem;
+  animation: voar 28s linear infinite;
+}
+@keyframes voar {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(115vw, -115vh); }
+}
+
+/* ===== Estrelas coletadas ===== */
+.estrelas { display: flex; gap: 0.25rem; margin-bottom: 0.6rem; justify-content: center; }
+.estrelas.grande { gap: 0.4rem; margin-bottom: 1.25rem; font-size: 1.4rem; }
+.estrela { font-size: 1.15rem; color: rgba(183, 155, 255, 0.25); transition: color 0.3s ease; }
+.estrelas.grande .estrela { font-size: 1.6rem; }
+.estrela.acesa { color: #ffd45e; text-shadow: 0 0 10px rgba(255, 212, 94, 0.8); }
+.estrela.nova { animation: coletar 0.8s ease-out; }
+@keyframes coletar {
+  0%   { transform: scale(0.3) rotate(-90deg); opacity: 0; }
+  60%  { transform: scale(1.9) rotate(15deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); }
+}
+
+@media (max-width: 480px) {
+  .p1 { width: 120px; height: 120px; }
+  .p2 { width: 90px; height: 90px; }
+  .estrela { font-size: 0.95rem; }
+}
