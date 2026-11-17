@@ -175,6 +175,7 @@ const cenas = {
 const telas = {
   inicio: document.getElementById("tela-inicio"),
   jogo: document.getElementById("tela-jogo"),
+  gameover: document.getElementById("tela-gameover"),
   vitoria: document.getElementById("tela-vitoria"),
   creditos: document.getElementById("tela-creditos")
 };
@@ -185,8 +186,7 @@ const infoFase = document.getElementById("info-fase");
 const barra = document.getElementById("barra-progresso");
 const elHistoria = document.getElementById("historia");
 const elOpcoes = document.getElementById("opcoes");
-const feedback = document.getElementById("feedback");
-const feedbackTexto = document.getElementById("feedback-texto");
+const textoGameOver = document.getElementById("texto-gameover");
 
 const elEstrelas = document.getElementById("estrelas");
 const elEstrelasVitoria = document.getElementById("estrelas-vitoria");
@@ -236,7 +236,6 @@ function iniciarJogo() {
 function mostrarCena(id) {
   const cena = cenas[id];
   const fase = parseInt(id, 10);
-  feedback.hidden = true;
   infoJogador.textContent = "Comandante: " + nickname;
   infoFase.textContent = "Fase " + fase + " de " + TOTAL_FASES;
   barra.style.width = ((fase - 1) / TOTAL_FASES) * 100 + "%";
@@ -256,12 +255,9 @@ function mostrarCena(id) {
 
 function escolher(opcao, botao) {
   if (opcao.fim) {
-    // GAME OVER
-    elOpcoes.querySelectorAll(".opcao").forEach(b => (b.disabled = true));
-    botao.classList.add("errada");
-    feedbackTexto.textContent = "Game over! " + opcao.fim;
-    feedback.hidden = false;
-    document.getElementById("btn-voltar").focus();
+    textoGameOver.textContent = opcao.fim;
+    mostrarTela("gameover");
+    document.getElementById("btn-tentar-novamente").focus();
   } else if (opcao.ir === "VITORIA") {
     mostrarVitoria();
   } else {
@@ -290,3 +286,7 @@ document.getElementById("btn-voltar").addEventListener("click", voltarAoInicio);
 document.getElementById("btn-jogar-novamente").addEventListener("click", voltarAoInicio);
 document.getElementById("btn-creditos").addEventListener("click", () => mostrarTela("creditos"));
 document.getElementById("btn-voltar-creditos").addEventListener("click", voltarAoInicio);
+document.getElementById("btn-tentar-novamente").addEventListener("click", () => {
+  mostrarTela("jogo");
+  mostrarCena("1");
+});

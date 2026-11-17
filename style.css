@@ -284,3 +284,13 @@ h2 { font-size: 1.2rem; line-height: 1.5; margin: 0 0 1.25rem; font-weight: 600;
   .p2 { width: 90px; height: 90px; }
   .estrela { font-size: 0.95rem; }
 }
+#tela-gameover .titulo {
+  background: linear-gradient(90deg, #ff7a9c, #ff4d6d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+#texto-gameover {
+  color: var(--errado);
+}
